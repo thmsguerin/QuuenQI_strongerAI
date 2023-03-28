@@ -1,7 +1,7 @@
 fitness_poses_csvs_out/*
 fitness_poses_images_in/*
 fitness_poses_images_out/*
-wetransfert_in_nofilter/*
+wetransfer_in_nofilter/*
 wetransfert_out/*
 .ipynb_checkpoints
 pushups.mp4
