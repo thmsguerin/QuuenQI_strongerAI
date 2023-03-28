@@ -1,7 +1,7 @@
-fitness_poses_csvs_out/*
-fitness_poses_images_in/*
-fitness_poses_images_out/*
-wetransfer_in_nofilter/*
-wetransfert_out/*
+fitness_poses_csvs_out/
+fitness_poses_images_in/
+fitness_poses_images_out/
+data/
+__pycache__
+.git
 .ipynb_checkpoints
-pushups.mp4
