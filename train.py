@@ -18,12 +18,12 @@ file_extension = 'csv'
 file_separator = ','
 
 
-def trainmodel(bootstrap_images_in_folder, bootstrap_images_out_folder, bootstrap_csvs_out_folder):
+def trainmodel(bootstrap_images_in_folder, bootstrap_images_out_folder, bootstrap_csvs_out_folder, exercise):
     # Initialize helper.
     bootstrap_helper = BootstrapHelper(
-        images_in_folder=bootstrap_images_in_folder,
-        images_out_folder=bootstrap_images_out_folder,
-        csvs_out_folder=bootstrap_csvs_out_folder,
+        images_in_folder=bootstrap_images_in_folder+'/'+exercise,
+        images_out_folder=bootstrap_images_out_folder+'/'+exercise,
+        csvs_out_folder=bootstrap_csvs_out_folder+'/'+exercise,
     )
 
     # Check how many pose classes and images for them are available.
@@ -85,7 +85,7 @@ def dump_for_the_app(pose_samples_folder, pose_samples_csv_path, file_extension,
 
 
 def main():
-    trainmodel(bootstrap_images_in_folder, bootstrap_images_out_folder, bootstrap_csvs_out_folder)
+    trainmodel(bootstrap_images_in_folder, bootstrap_images_out_folder, bootstrap_csvs_out_folder, exercise='squats')
     dump_for_the_app(pose_samples_folder, pose_samples_csv_path, file_extension, file_separator)
 
 
