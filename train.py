@@ -7,12 +7,16 @@ from classApp.class_bootstrapHelper import show_image
 from classApp.class_poseclassifier import PoseClassifier
 from classApp.class_fullBodyPoseEmbedder import FullBodyPoseEmbedder
 
+import sys
+arg_list = sys.argv
+script = arg_list[0]
+exercise = arg_list[1]
 
 bootstrap_images_in_folder = 'fitness_poses_images_in'
 bootstrap_images_out_folder = 'fitness_poses_images_out'
 bootstrap_csvs_out_folder = 'fitness_poses_csvs_out'
 
-pose_samples_folder = 'fitness_poses_csvs_out'
+pose_samples_folder = 'fitness_poses_csvs_out/'+exercise
 pose_samples_csv_path = 'fitness_poses_csvs_out.csv'
 file_extension = 'csv'
 file_separator = ','
@@ -85,7 +89,7 @@ def dump_for_the_app(pose_samples_folder, pose_samples_csv_path, file_extension,
 
 
 def main():
-    trainmodel(bootstrap_images_in_folder, bootstrap_images_out_folder, bootstrap_csvs_out_folder, exercise='squats')
+    trainmodel(bootstrap_images_in_folder, bootstrap_images_out_folder, bootstrap_csvs_out_folder, exercise)
     dump_for_the_app(pose_samples_folder, pose_samples_csv_path, file_extension, file_separator)
 
 
