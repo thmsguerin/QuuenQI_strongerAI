@@ -19,19 +19,8 @@ from classApp.class_bootstrapHelper import BootstrapHelper
 from classApp.class_bootstrapHelper import show_image
 
 #-----------------------------------------------------
-# Specify your video name and target pose class to count the repetitions.
-video_path = './data/pushups.mp4'
-class_name = 'pushups_down'
-out_video_path = './data/pushups-sample-out.mp4'
-video_cap = cv2.VideoCapture(video_path)
-# Get some video parameters to generate output video with classificaiton.
-video_n_frames = video_cap.get(cv2.CAP_PROP_FRAME_COUNT)
-video_fps = video_cap.get(cv2.CAP_PROP_FPS)
-video_width = int(video_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
-video_height = int(video_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
-
-def initialize(pose_samples_folder):
+def initialize(class_name, video_n_frames, pose_samples_folder):
     # Initialize tracker.
     pose_tracker = mp_pose.Pose()
 
@@ -71,7 +60,7 @@ def initialize(pose_samples_folder):
     return pose_tracker, pose_classifier, pose_classification_filter, repetition_counter, pose_classification_visualizer
 
 
-def generateVideo(pose_tracker, pose_classifier, pose_classification_filter, repetition_counter, pose_classification_visualizer):
+def generateVideo(out_video_path, video_cap, video_n_frames, video_fps, video_width, video_height, pose_tracker, pose_classifier, pose_classification_filter, repetition_counter, pose_classification_visualizer):
     # Run classification on a video.
     # Open output video.
     out_video = cv2.VideoWriter(out_video_path, cv2.VideoWriter_fourcc(*'mp4v'), video_fps, (video_width, video_height))
@@ -137,9 +126,9 @@ def generateVideo(pose_tracker, pose_classifier, pose_classification_filter, rep
             # Save the output frame.
             out_video.write(cv2.cvtColor(np.array(output_frame), cv2.COLOR_RGB2BGR))
 
-            # Show intermediate frames of the video to track progress.
-            if frame_idx % 50 == 0:
-                show_image(output_frame)
+            # # Show intermediate frames of the video to track progress.
+            # if frame_idx % 50 == 0:
+            #     show_image(output_frame)
 
             frame_idx += 1
             pbar.update()
@@ -150,9 +139,9 @@ def generateVideo(pose_tracker, pose_classifier, pose_classification_filter, rep
     # Release MediaPipe resources.
     # pose_tracker.close()
 
-    # Show the last frame of the video.
-    if output_frame is not None:
-        show_image(output_frame)
+    # # Show the last frame of the video.
+    # if output_frame is not None:
+    #     show_image(output_frame)
 
 
 def useWebcam():
@@ -160,6 +149,18 @@ def useWebcam():
 
 
 def main():
+    exercise='squats'
+
+    # Specify your video name and target pose class to count the repetitions.
+    video_path = './data/'+exercise+'.mp4'
+    class_name = 'pushups_down'
+    out_video_path = './data/'+exercise+'-sample-out.mp4'
+    video_cap = cv2.VideoCapture(video_path)
+    # Get some video parameters to generate output video with classificaiton.
+    video_n_frames = video_cap.get(cv2.CAP_PROP_FRAME_COUNT)
+    video_fps = video_cap.get(cv2.CAP_PROP_FPS)
+    video_width = int(video_cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    video_height = int(video_cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
     print(f"video_n_frames: {video_n_frames}")
     print(f"video_fps: {video_fps}")
@@ -168,10 +169,10 @@ def main():
 
     # Folder with pose class CSVs. That should be the same folder you using while
     # building classifier to output CSVs.
-    pose_samples_folder = 'fitness_poses_csvs_out'
+    pose_samples_folder = 'fitness_poses_csvs_out/' + exercise
     
-    pose_tracker, pose_classifier, pose_classification_filter, repetition_counter, pose_classification_visualizer = initialize(pose_samples_folder)
-    generateVideo(pose_tracker, pose_classifier, pose_classification_filter, repetition_counter, pose_classification_visualizer)
+    pose_tracker, pose_classifier, pose_classification_filter, repetition_counter, pose_classification_visualizer = initialize(class_name, video_n_frames, pose_samples_folder)
+    generateVideo(out_video_path, video_cap, video_n_frames, video_fps, video_width, video_height, pose_tracker, pose_classifier, pose_classification_filter, repetition_counter, pose_classification_visualizer)
 
 
 if __name__ == "__main__":
